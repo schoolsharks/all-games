@@ -55,7 +55,7 @@ function App() {
             px: { xs: 1, sm: 0 },
           }}
         >
-          WGBA Game Library
+          WGAB Game Library
         </Typography>
       </Box>
 

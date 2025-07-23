@@ -10,8 +10,9 @@ import {
   Typography,
   Box,
   IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
 import type { Game } from "../data/games";
 
 interface PasswordModalProps {
@@ -29,6 +30,7 @@ export const PasswordModal: React.FC<PasswordModalProps> = ({
 }) => {
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleSubmit = () => {
     if (game && password === game.adminPasscode) {
@@ -42,6 +44,7 @@ export const PasswordModal: React.FC<PasswordModalProps> = ({
   const handleClose = () => {
     setPassword("");
     setError("");
+    setShowPassword(false);
     onClose();
   };
 
@@ -49,6 +52,10 @@ export const PasswordModal: React.FC<PasswordModalProps> = ({
     if (e.key === "Enter") {
       handleSubmit();
     }
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -98,13 +105,33 @@ export const PasswordModal: React.FC<PasswordModalProps> = ({
           autoFocus
           margin="dense"
           label="Admin Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           fullWidth
           variant="outlined"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Enter password to view PIN"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleTogglePasswordVisibility}
+                  edge="end"
+                  size="small"
+                  sx={{
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "grey.100",
+                    },
+                  }}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
